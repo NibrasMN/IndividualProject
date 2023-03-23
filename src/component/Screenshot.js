@@ -1,15 +1,12 @@
-import React, { createRef, useState,useRef } from 'react'
-import { useScreenshot } from 'use-react-screenshot'
+import React, {  useState } from 'react'
+
 
 const Screenshot=()=>{
-    const ref = createRef(null)
-  const [image, takeScreenshot] = useScreenshot()
-  const getImage = () => takeScreenshot(ref.current)
+  
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [users, setUsers] = useState([]);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const buttonRef = useRef();
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,41 +20,11 @@ const Screenshot=()=>{
     const updatedUsers = users.filter((user, i) => i !== index);
     setUsers(updatedUsers);
   };
-  const handleDragStart = (event) => {
-    const button = buttonRef.current;
-    const buttonRect = button.getBoundingClientRect();
-    const offsetX = event.clientX - buttonRect.left;
-    const offsetY = event.clientY - buttonRect.top;
-
-    const handleMouseMove = (event) => {
-      const newX = event.clientX - offsetX;
-      const newY = event.clientY - offsetY;
-      setPosition({ x: newX, y: newY });
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-
-    document.addEventListener(
-      "mouseup",
-      () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-      },
-      { once: true }
-    );
-  };
+ 
   return (
     <div>
-      <div>
-      <button
-        ref={buttonRef}
-        style={{ position: "absolute", top: position.y, left: position.x }}
-        onMouseDown={handleDragStart} onDoubleClick={getImage}
-      >
-        Take Screenshot
-      </button>
-    </div>
-      <img  src={image}  />
-      <div ref={ref}>
+      
+      <div >
       <h1>User Management System</h1>
       <form onSubmit={handleSubmit}>
         <label>
